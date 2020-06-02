@@ -60,22 +60,22 @@ _install() {
     } > /dev/null 2>&1
     if [ -n "$configdiff" ]; then
       yn=''
-      echo "Installed configuration differs from packaged version."
+      echo "Installed configuration differs from package config."
       echo
-      echo "Install packaged config? Original will be backed up as /etc/default/zram-swap.oldconfig"
+      echo "Install package config? Original will be saved as /etc/default/zram-swap.oldconfig"
       while true; do
-        echo "(y)Install packaged config / (n)Keep current / (s)Show diff"
-        printf "[y/n/s]: "
+        echo "(I)nstall package config / (K)eep current / View (d)iff"
+        printf "[i/k/d]: "
         read yn
         case "$yn" in
-          [Yy]*)
+          [Ii]*)
             echo "Installing packaged config ..."
             install -o root -m 0644 --backup --suffix=".oldconfig" service/zram-swap.config /etc/default/zram-swap
             newconfig='y'
             break
             ;;
-          [Nn]*) break ;;
-          [Ss]*) printf "%s\n\n" "$configdiff" ;;
+          [Kk]*) break ;;
+          [Dd]*) printf "%s\n\n" "$configdiff" ;;
         esac
       done
     fi
